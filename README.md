@@ -7,7 +7,9 @@ your data between applications.
 
 ## Quickstart
 
+```
 [rage-db "0.1.0-SNAPSHOT"]
+```
 
 ## Usage
 
