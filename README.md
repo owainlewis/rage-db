@@ -30,7 +30,7 @@ Create a new database
 ```clojure
 
 (ns foo
-  (require [rage-db.core :refer all]))
+  (require [rage-db.core :as rdb]))
 
 ;; Create a new in memory database
 (def db (create "users"))
@@ -39,18 +39,18 @@ Create a new database
 
 ;; Insert some data
 
-(insert db
+(rdb/insert db
   {:first "owain" :last "lewis" :email "owain@owainlewis.com"})
 
 ;; Now let's query for a user
 
-(select db :email "owain@owainlewis.com")
+(rdb/select db :email "owain@owainlewis.com")
 
 ;; [{:email "owain@owainlewis.com", :first "owain", :last "lewis"}]
 
 ;; Once we are done we can flush our data to disk
 
-(save db)
+(rdb/save db)
 
 ;; "data/users-1408216769512"
 
@@ -65,7 +65,7 @@ to find data
 
 ;; Find a user with a given email
 
-(? db (fn [row] (= (:email row) "jack@twitter.com")))
+(rdb/? db (fn [row] (= (:email row) "jack@twitter.com")))
 
 ```
 
@@ -74,7 +74,7 @@ to find data
 Data can be flushed to disk as JSON like this
 
 ```clojure
-(save db)
+(rdb/save db)
 ```
 
 This command returns a file path to your database. Notice how the files are saved with a timestamp
@@ -86,7 +86,7 @@ Loading data is equally easy
 
 ```clojure
 
-(def db (load "data/users-1408216769512"))
+(def db (rdb/read "data/users-1408216769512"))
 
 ```
 
