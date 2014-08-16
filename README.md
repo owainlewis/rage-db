@@ -33,7 +33,7 @@ Create a new database
   (require [rage-db.core :as rdb]))
 
 ;; Create a new in memory database
-(def db (create "users"))
+(def db (rdb/create "users"))
 
 ;; #<Atom@453fc370: #rage_db.core.DB{:db "users", :created 1408216769512, :data []}>
 
