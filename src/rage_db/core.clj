@@ -1,7 +1,7 @@
 (ns rage-db.core
   (:require [clojure.java.io :as io]
             [cheshire.core :as json]))
-
+          
 (def ^:dynamic *directory* "data")
 
 (defn- build-file-path
