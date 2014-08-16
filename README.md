@@ -45,6 +45,19 @@ Create a new database
 
 ```
 
+## Querying the database
+
+Querying the data-set is no different from querying any other clojure map. You can use the ? function
+to find data
+
+```clojure
+
+;; Find a user with a given email
+
+(? db (fn [row] (= (:email row) "jack@twitter.com")))
+
+```
+
 ## License
 
 Copyright © 2014 FIXME
