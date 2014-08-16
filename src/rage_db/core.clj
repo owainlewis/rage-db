@@ -2,6 +2,11 @@
   (:require [clojure.java.io :as io]
             [cheshire.core :as json]))
           
+;; Rage is a very simple but useful in memory data store for prototyping and for cases 
+;; where your datasets are small enough to work with in memory.
+
+;; Data is manipulated in memory as basic clojure maps but stored to disk as plain JSON
+
 (def ^:dynamic *directory* "data")
 
 (defn- build-file-path
