@@ -1,16 +1,13 @@
 # Rage DB
 
-Rage is a very simple but useful in memory data store for prototyping and for cases
-where your datasets are small enough to work with in memory.
+Rage is a very simple but incredibly useful data store for prototyping and for cases where your datasets are small enough to work with in memory.
 
-Data is manipulated in memory as basic clojure maps but stored to disk as plain JSON
+Data is manipulated in memory as basic clojure maps but stored to disk as plain JSON making it easy to transfer
+your data between applications.
 
-## Use case example
+## Quickstart
 
-You are prototyping a web crawler which runs every 10 minutes returning a small ish dataset
-that is manipulated in memory. You need to store the results to disk and save them to AWS with a timestamp.
-
-Rage db lets you work with simple clojure data structures and persist the results to disk as immutable JSON which can be read at a later date for analysis.
+[rage-db "0.1.0-SNAPSHOT"]
 
 ## Usage
 
