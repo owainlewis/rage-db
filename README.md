@@ -7,8 +7,20 @@ your data between applications.
 
 ## Quickstart
 
+Clojars
+
 ```
 [rage-db "0.1.0-SNAPSHOT"]
+```
+
+Maven
+
+```
+<dependency>
+  <groupId>rage-db</groupId>
+  <artifactId>rage-db</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+</dependency>
 ```
 
 ## Usage
