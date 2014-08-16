@@ -69,6 +69,27 @@ to find data
 
 ```
 
+## Save your data
+
+Data can be flushed to disk as JSON like this
+
+```clojure
+(save db)
+```
+
+This command returns a file path to your database. Notice how the files are saved with a timestamp
+representing the database creation time.
+
+## Loading data
+
+Loading data is equally easy
+
+```clojure
+
+(def db (load "data/users-1408216769512"))
+
+```
+
 ## License
 
 Copyright © 2014 FIXME
