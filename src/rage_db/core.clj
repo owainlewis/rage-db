@@ -1,10 +1,11 @@
 (ns rage-db.core
   (:require [clojure.java.io :as io]
-            [clojure.data.json :as json]))
+            [cheshire.core :as json]))
 
 (def ^:dynamic *directory* "data")
 
-(defn build-file-path [path]
+(defn- build-file-path
+  [path]
   (format "%s/%s" *directory* path))
 
 (defn save
@@ -14,8 +15,8 @@
   (let [{:keys [db created data]} @database
         file-path (apply str [*directory* "/" db "-" created])]
     (do
-      (spit file-path (json/write-str data))
-      file-path)))
+      (spit file-path (json/generate-string data {:pretty true}))
+        file-path)))
 
 (defn read
   ""
@@ -24,7 +25,7 @@
     (let [[name timestamp] (clojure.string/split db-name #"-")]
       {:db name
        :created timestamp
-       :data (json/read-str (slurp (str *directory* "/" db-name)))})))
+       :data (json/parse-string (slurp (str *directory* "/" db-name)))})))
 
 (defrecord DB [db created data])
 

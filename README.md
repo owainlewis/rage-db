@@ -35,7 +35,7 @@ Create a new database
 
 (select db :email "owain@owainlewis.com")
 
-;; [{:email "owain@owainlewis.com", :first "owain", :last "lewis"}o)]
+;; [{:email "owain@owainlewis.com", :first "owain", :last "lewis"}]
 
 ;; Once we are done we can flush our data to disk
 
