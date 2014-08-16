@@ -10,6 +10,8 @@
 (def ^:dynamic *directory* "data")
 
 (defn- build-file-path
+  "Helper function that builds the path to store data on disk
+   By default all data will be stored in /data"
   [path]
   (format "%s/%s" *directory* path))
 
@@ -24,7 +26,7 @@
         file-path)))
 
 (defn read
-  ""
+  "Read json from the data directory"
   [db-name]
   (when (.exists (io/file (build-file-path db-name)))
     (let [[name timestamp] (clojure.string/split db-name #"-")]
@@ -35,7 +37,7 @@
 (defrecord DB [db created data])
 
 (defn create
-  "Creates a new database"
+  "Creates a new in memory database"
   [name]
   (atom
     (DB. name (System/currentTimeMillis) [])))
@@ -60,10 +62,15 @@
   (swap! db assoc-in [:data] []))
 
 (defn ?
+  "Query the dataset with a function i.e
+     (? db (fn [row] (= :email row) \"owain@owainlewis.com\""
   [db fn]
   (let [query-set (:data @db)]
     (filter fn query-set)))
 
-(defn select [db k v]
+(defn select 
+  "A helper function that makes it easy to query the dataset where
+   a key k is equal to a given value v"
+  [db k v]
   (? db (fn [row]
     (= (get row k) v))))
