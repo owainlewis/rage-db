@@ -5,6 +5,18 @@ Rage is a very simple but incredibly useful data store for prototyping or workin
 Data is manipulated in memory as basic clojure maps but stored to disk as plain JSON making it easy to transfer
 your data between applications.
 
+## Pros
+
++ Very easy to use (just a library)
++ Useful for prototyping
++ Great for memory datasets where you need small ish JSON dumps
+
+## Cons
+
++ Memory
++ Slow
++ Flat files
+
 ## Quickstart
 
 Clojars
