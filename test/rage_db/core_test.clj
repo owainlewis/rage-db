@@ -1,7 +1,15 @@
 (ns rage-db.core-test
-  (:require [clojure.test :refer :all]
+  (:require [midje.sweet :refer :all]
             [rage-db.core :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+
+(facts "creating a database"
+  (let [db (create "users")]
+    (class db)     => clojure.lang.Atom
+    (:store @db)   => {}
+    (:db-name @db) => "users"))
+
+(facts "inserting rows into a keyspace"
+  (let [db (create "foo")]
+    (insert db :users {:a 1 :b 2})
+    (size db :users) => 1))

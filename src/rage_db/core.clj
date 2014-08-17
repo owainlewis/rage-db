@@ -29,15 +29,20 @@
 
 ;; -------------------------------------------------------------------
 
-(defn create
+(defn ^{:doc
   "Creates a new in memory database using
-   clojure.lang.PersistentArrayMap as the underlying store"
+   clojure.lang.PersistentArrayMap as the underlying store
+   e.g
+     (create \"users\")"}
+  create
   [name]
   (atom (RDB. name {})))
 
-(defn insert
-  "Insert a single row into the data set
-   e.g (insert db :foo {:a 1 :b 2})"
+(defn ^{:doc
+  "Insert a single row into a given keyspace
+   e.g
+     (insert db :users {:first \"jack\" :last \"dorsey\"})"}
+  insert
   ([db ks row]
   (swap! db assoc-in [:store ks]
     (conj
@@ -87,6 +92,8 @@
    By default all data will be stored in /data"
   [path]
   (format "%s/%s" *directory* path))
+
+;; TODO the data directory idea is stupid. Allow users to pass in a path to the data folder
 
 (defn dump
   "Save the database to disk. Files are saved in the form
