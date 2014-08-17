@@ -82,6 +82,17 @@ You can use the ? function to find data. By default the underlying store in Rage
 
 ```
 
+## Easy query
+
+Two methods are provided to make querying easier. select-where and drop-where
+
+```clojure
+
+;; Drop any rows where the first name is jack
+(rdb/drop-where db :users :first "jack")
+
+```
+
 ## Save your data
 
 Data can be flushed to disk as JSON like this
