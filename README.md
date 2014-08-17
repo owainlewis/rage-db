@@ -46,7 +46,7 @@ Create a new database
 
 ;; Now let's query for a user
 
-(rdb/select db :users :email "owain@owainlewis.com")
+(rdb/where db :users :email "owain@owainlewis.com")
 
 ;; [{:email "owain@owainlewis.com", :first "owain", :last "lewis"}]
 
