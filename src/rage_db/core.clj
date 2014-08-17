@@ -48,7 +48,13 @@
     (conj
       (get-in @db [:store ks] []) row))))
 
-(defn drop-where [db ks k v]
+(defn
+ ^{:doc
+     "Drop all items from a keyspace where k is equal to v
+      e.g.
+        (drop-where db :users :first \"jack\")"}
+  drop-where
+  [db ks k v]
   (swap! db assoc-in [:store ks]
     (filter (complement #(= (get % k) v)) (get-in @db [:store ks] []))))
 
