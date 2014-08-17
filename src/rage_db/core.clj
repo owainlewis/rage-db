@@ -101,7 +101,7 @@
   [database]
   (let [{:keys [db-name store]} @database
         file-name (str db-name "-" (System/currentTimeMillis))
-        file-path (apply str [*directory* "/" file-name])
+        file-path file-name
         _ (spit file-path (json/generate-string store {:pretty true}))]
      file-name))
 
@@ -113,7 +113,7 @@
       (atom
         (RDB.
            name
-           (json/parse-string (slurp (str *directory* "/" db-name))))))))
+           (json/parse-string (slurp db-name)))))))
 
 ;; -------------------------------------------------------------------
 
