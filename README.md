@@ -82,7 +82,21 @@ This command returns a file path to your database. Notice how the files are save
 representing the database creation time. All data is stored as pretty printed json.
 
 ```json
-
+{
+  "users" : [ {
+    "email" : "owain@owainlewis.com",
+    "first" : "owain",
+    "last" : "lewis"
+  }, {
+    "email" : "jack@twitter.com",
+    "first" : "jack",
+    "last" : "dorsey"
+  }, {
+    "email" : "bill@microsoft.com",
+    "first" : "bill",
+    "last" : "gates"
+  } ]
+}
 ```
 
 ## Loading data
