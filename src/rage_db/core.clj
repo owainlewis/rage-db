@@ -74,8 +74,8 @@
 
 (defn size
   "Returns the number of records in a key space"
-  [db k]
-  (if-let [data-for-key (get-in @db [:store k])]
+  [db ks]
+  (if-let [data-for-key (get-in @db [:store ks])]
     (count data-for-key)
      0))
 
