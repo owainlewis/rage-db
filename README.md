@@ -78,7 +78,24 @@ Data can be flushed to disk as JSON like this
 ```
 
 This command returns a file path to your database. Notice how the files are saved with a timestamp
-representing the database creation time.
+representing the database creation time. All data is stored as pretty printed json.
+
+```json
+[ {
+  "email" : "owain@owainlewis.com",
+  "first" : "owain",
+  "last" : "lewis"
+}, {
+  "email" : "jack@twitter.com",
+  "first" : "jack",
+  "last" : "dorsey"
+}, {
+  "email" : "marissa@yahoo.com",
+  "first" : "marissa",
+  "last" : "meyer"
+} ]
+
+```
 
 ## Loading data
 
