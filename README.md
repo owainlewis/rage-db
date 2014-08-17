@@ -1,6 +1,6 @@
 # Rage DB
 
-![])https://travis-ci.org/owainlewis/rage-db.svg)
+![](https://travis-ci.org/owainlewis/rage-db.svg)
 
 Rage is a very simple but incredibly useful data store for prototyping or working with in memory datasets.
 
