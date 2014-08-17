@@ -1,5 +1,7 @@
 # Rage DB
 
+![])https://travis-ci.org/owainlewis/rage-db.svg)
+
 Rage is a very simple but incredibly useful data store for prototyping or working with in memory datasets.
 
 Data is manipulated in memory as basic clojure maps but stored to disk as plain JSON making it easy to transfer
