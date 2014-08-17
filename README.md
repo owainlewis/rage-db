@@ -60,8 +60,7 @@ Create a new database
 
 ## Querying the database
 
-Querying the data-set is no different from querying any other clojure map. You can use the ? function
-to find data
+You can use the ? function to find data. By default the underlying store in Rage is a simple Clojure map.
 
 ```clojure
 
