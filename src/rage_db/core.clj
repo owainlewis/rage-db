@@ -58,7 +58,7 @@
 
 (defn ?
   "Query the dataset with a function i.e
-     (? db (fn [row] (= :email row) \"owain@owainlewis.com\""
+     (? db :users (fn [row] (= :email row) \"owain@owainlewis.com\""
   [db ks fn]
   (filter fn (keyspace db ks)))
 
