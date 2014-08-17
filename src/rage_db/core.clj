@@ -48,6 +48,10 @@
     (conj
       (get-in @db [:store ks] []) row))))
 
+(defn drop-where [db ks k v]
+  (swap! db assoc-in [:store ks]
+    (filter (complement #(= (get % k) v)) (get-in @db [:store ks] []))))
+
 (defn keyspace
   "Returns all data in a given keyspace"
   [db ks]
