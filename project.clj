@@ -1,4 +1,4 @@
-(defproject rage-db "0.1.0-SNAPSHOT"
+(defproject rage-db "0.2"
   :description "Lightweight disk based json database"
   :url "http://owainlewis.com"
   :license {:name "Eclipse Public License"

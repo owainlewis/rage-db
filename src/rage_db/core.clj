@@ -3,10 +3,11 @@
             [cheshire.core :as json]))
 
 ;; -------------------------------------------------------------------
-
+;;
+;; RAGE DB. A simple in memory file backed database for prototyping
+;;
 ;; Rage is a very simple but useful in memory data store for prototyping and for cases
 ;; where your datasets are small enough to work with in memory.
-
 ;; Data is manipulated in memory as basic clojure maps but stored to disk as plain JSON
 
 ;; -------------------------------------------------------------------
@@ -56,9 +57,9 @@
   drop-where
   [db ks k v]
   (swap! db assoc-in [:store ks]
-    (filter 
-      (complement 
-        #(= (get % k) v)) 
+    (filter
+      (complement
+        #(= (get % k) v))
       (get-in @db [:store ks] []))))
 
 (defn keyspace
@@ -73,6 +74,8 @@
 
 ;; Queries
 ;; -------------------------------------------------------------------
+
+(def all keyspace)
 
 (defn ?
   "Query the dataset with a function i.e
@@ -115,14 +118,18 @@
   (let [{:keys [db-name store]} @database
         file-name (str db-name "-" (System/currentTimeMillis))
         file-path file-name
-        _ (spit file-path (json/generate-string store {:pretty true}))]
+        _ (spit file-path
+            (json/generate-string store {:pretty true}))]
      file-name))
 
 (defn load-db
   "Read json from the data directory"
   [db-name]
-  (when (.exists (io/file (build-file-path db-name)))
-    (let [[name timestamp] (clojure.string/split db-name #"-")]
+  (when (.exists
+          (io/file
+            (build-file-path db-name)))
+    (let [[name timestamp]
+            (clojure.string/split db-name #"-")]
       (atom
         (RDB.
            name
