@@ -1,5 +1,6 @@
 (ns rage-db.core
   (:require [clojure.java.io :as io]
+            [clojure.string :refer [split]]
             [cheshire.core :as json]))
 
 ;; -------------------------------------------------------------------
@@ -129,7 +130,7 @@
           (io/file
             (build-file-path db-name)))
     (let [[name timestamp]
-            (clojure.string/split db-name #"-")]
+            (split db-name #"-")]
       (atom
         (RDB.
            name
