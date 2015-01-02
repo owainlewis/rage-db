@@ -4,7 +4,7 @@
 
 Rage is a very simple but incredibly useful data store for prototyping or working with in memory datasets.
 
-Data is manipulated in memory as basic Clojure map but can be flushed to disk as plain JSON at any point. 
+Data is manipulated in memory as basic Clojure map but can be flushed to disk as plain JSON at any point.
 
 ## Pros
 
@@ -88,6 +88,9 @@ You can use the ? function to find data. By default the underlying store in Rage
 Two methods are provided to make querying easier. select-where and drop-where
 
 ```clojure
+
+;; Select any rows where the first name is equal to "jack"
+(select-where mem-db :users :first "jack")
 
 ;; Drop any rows where the first name is jack
 (rdb/drop-where db :users :first "jack")

@@ -1,4 +1,5 @@
 (ns rage-db.core
+  (:refer-clojure :exclude [flush])
   (:require [clojure.java.io :as io]
             [clojure.string :refer [split]]
             [cheshire.core :as json]))
@@ -18,14 +19,10 @@
 (defrecord RDB [db-name store])
 
 (defprotocol Rage
-
 ;; Primary operations
-
   (create [this name]   "creates a new database")
   (insert [this ks row] "insert a row into a keyspace")
-
 ;; Query operations
-
   (?      [this ks fn]  "query a keyspace by function")
   (where  [this ks k v] "find all records in a keyspace where k = v"))
 
@@ -37,8 +34,11 @@
    e.g
      (create \"users\")"}
   create
-  [name]
-  (atom (RDB. name {})))
+  [db]
+  (atom (RDB. (name db) {})))
+
+;; Default empty in memory db
+(def mem-db (create :mem))
 
 (defn ^{:doc
   "Insert a single row into a given keyspace
@@ -62,6 +62,13 @@
       (complement
         #(= (get % k) v))
       (get-in @db [:store ks] []))))
+
+(defn select-where
+  [db ks k v]
+  (let [ks-results (get-in @db [:store ks] [])]
+    (into []
+      (filter (fn [record]
+                (= v (get record k))) ks-results))))
 
 (defn keyspace
   "Returns all data in a given keyspace"
@@ -105,10 +112,9 @@
 ;; -------------------------------------------------------------------
 
 (defn- build-file-path
-  "Helper function that builds the path to store data on disk
-   By default all data will be stored in /data"
+  "Helper function that builds the path to store data on disk"
   [path]
-  (format "%s/%s" *directory* path))
+  (format "%s" path))
 
 ;; TODO the data directory idea is stupid. Allow users to pass in a path to the data folder
 
