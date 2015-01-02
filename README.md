@@ -73,6 +73,20 @@ Create a new database
 
 ## Querying the database
 
+Use the keyspace function to return all records for a keyspace.
+
+```clojure
+
+;; Let's insert some data
+(insert mem-db :users {:first "Owain" :last "Lewis"})
+(insert mem-db :users {:first "Jack" :last "Dorsey"})
+
+;; Return all users
+
+(def all-users (rdb/keyspace mem-db :users))
+
+```
+
 You can use the ? function to find data. By default the underlying store in Rage is a simple Clojure map.
 
 ```clojure
@@ -85,15 +99,25 @@ You can use the ? function to find data. By default the underlying store in Rage
 
 ## Easy query
 
-Two methods are provided to make querying easier. select-where and drop-where
+Two methods are provided to make querying easier. where and drop-where
 
 ```clojure
 
 ;; Select any rows where the first name is equal to "jack"
-(select-where mem-db :users :first "jack")
+(rdb/where mem-db :users :first "jack")
 
 ;; Drop any rows where the first name is jack
 (rdb/drop-where db :users :first "jack")
+
+```
+
+## JSON queries
+
+To return your result set as json simply call the as-json function like this
+
+```clojure
+
+(rdb/as-json (d
 
 ```
 

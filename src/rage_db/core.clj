@@ -19,12 +19,10 @@
 (defrecord RDB [db-name store])
 
 (defprotocol Rage
-;; Primary operations
-  (create [this name]   "creates a new database")
-  (insert [this ks row] "insert a row into a keyspace")
-;; Query operations
-  (?      [this ks fn]  "query a keyspace by function")
-  (where  [this ks k v] "find all records in a keyspace where k = v"))
+  (create-db [this name]   "creates a new database")
+  (insert-db [this ks row] "insert a row into a keyspace")
+  (db-?      [this ks fn]  "query a keyspace by function")
+  (db-where  [this ks k v] "find all records in a keyspace where k = v"))
 
 ;; -------------------------------------------------------------------
 
@@ -39,6 +37,9 @@
 
 ;; Default empty in memory db
 (def mem-db (create :mem))
+
+(defn as-json [record]
+  (json/generate-string record))
 
 (defn ^{:doc
   "Insert a single row into a given keyspace
@@ -63,12 +64,7 @@
         #(= (get % k) v))
       (get-in @db [:store ks] []))))
 
-(defn select-where
-  [db ks k v]
-  (let [ks-results (get-in @db [:store ks] [])]
-    (into []
-      (filter (fn [record]
-                (= v (get record k))) ks-results))))
+(def select-where where)
 
 (defn keyspace
   "Returns all data in a given keyspace"
