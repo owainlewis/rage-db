@@ -64,8 +64,6 @@
         #(= (get % k) v))
       (get-in @db [:store ks] []))))
 
-(def select-where where)
-
 (defn keyspace
   "Returns all data in a given keyspace"
   [db ks]
