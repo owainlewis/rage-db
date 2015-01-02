@@ -23,7 +23,7 @@ Data is manipulated in memory as basic Clojure map but can be flushed to disk as
 Clojars
 
 ```
-[rage-db "0.1.0-SNAPSHOT"]
+[rage-db "1.0"]
 ```
 
 Maven
