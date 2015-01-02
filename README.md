@@ -117,7 +117,8 @@ To return your result set as json simply call the as-json function like this
 
 ```clojure
 
-(rdb/as-json (d
+(rdb/as-json
+  (rdb/where mem-db :users :first "jack"))
 
 ```
 
