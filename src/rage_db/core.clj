@@ -138,6 +138,7 @@
            name
            (json/parse-string (slurp db-name)))))))
 
+;; Database compression for persistance
 ;; -------------------------------------------------------------------
 
 (defn read-gzip [file-path]
