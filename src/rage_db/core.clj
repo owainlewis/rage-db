@@ -40,7 +40,7 @@
   (keyspace [this ks]
     "Select all items in the keyspace")
 
-  (? [this ks fn]
+  (? [this ks f]
     "Query the database using a simple function")
 
   (where [this ks k v]
@@ -65,9 +65,9 @@
     (let [result (get-in @this [:store ks])]
       (if (nil? result) {} result)))
 
-  (? [this ks fn]
+  (? [this ks f]
     (into []
-      (filter fn (keyspace this ks))))
+      (filter f (keyspace this ks))))
 
   (where [this ks k v]
     (? this ks (fn [row]
