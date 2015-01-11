@@ -18,14 +18,6 @@
 
 (defrecord RDB [db-name store])
 
-(defprotocol Rage
-  (create-db [this name]   "creates a new database")
-  (insert-db [this ks row] "insert a row into a keyspace")
-  (db-?      [this ks fn]  "query a keyspace by function")
-  (db-where  [this ks k v] "find all records in a keyspace where k = v"))
-
-;; -------------------------------------------------------------------
-
 (defn ^{:doc
   "Creates a new in memory database using
    clojure.lang.PersistentArrayMap as the underlying store
@@ -38,59 +30,64 @@
 ;; Default empty in memory db
 (def mem-db (create :mem))
 
-(defn as-json [record]
-  (json/generate-string record))
+;; Generic protocol/abstraction to be implemented by various back end stores
 
-(defn ^{:doc
-  "Insert a single row into a given keyspace
-   e.g
-     (insert db :users {:first \"jack\" :last \"dorsey\"})"}
-  insert
-  ([db ks row]
-  (swap! db assoc-in [:store ks]
-    (conj
-      (get-in @db [:store ks] []) row))))
+(defprotocol Rage
 
-(defn
- ^{:doc
-     "Drop all items from a keyspace where k is equal to v
-      e.g.
-        (drop-where db :users :first \"jack\")"}
-  drop-where
-  [db ks k v]
-  (swap! db assoc-in [:store ks]
-    (filter
-      (complement
-        #(= (get % k) v))
-      (get-in @db [:store ks] []))))
+  (insert [this ks row]
+    "insert an item in to a given keyspace")
 
-(defn keyspace
-  "Returns all data in a given keyspace"
-  [db ks]
-  (get-in @db [:store ks]))
+  (keyspace [this ks]
+    "Select all items in the keyspace")
 
-(defn flush
-  "Flushes all records from the database"
-  [db]
-  (swap! db assoc-in [:store] {}))
+  (? [this ks fn]
+    "Query the database using a simple function")
 
-;; Queries
+  (where [this ks k v]
+    "Select an item in the database where k = v")
+
+  (drop-where [this ks k v]
+    "Drop every occurence in a keyspace where k = v"
+
+  (drop-db [this]
+     "Drop everything from the database")))
+
+(extend-protocol Rage
+
+  clojure.lang.Atom
+
+  (insert [this ks row]
+    (swap! this assoc-in [:store ks]
+      (conj
+        (get-in @this [:store ks] []) row)))
+
+  (keyspace [this ks]
+    (let [result (get-in @this [:store ks])]
+      (if (nil? result) {} result)))
+
+  (? [this ks fn]
+    (into []
+      (filter fn (keyspace this ks))))
+
+  (where [this ks k v]
+    (? this ks (fn [row]
+                 (= (get row k) v))))
+
+  (drop-where
+    [this ks k v]
+      (swap! this assoc-in [:store ks]
+        (filter
+          (complement
+            #(= (get % k) v))
+              (get-in @this [:store ks] []))))
+
+  (drop-db [this]
+    (swap! this assoc-in [:store] {})))
+
 ;; -------------------------------------------------------------------
 
-(def all keyspace)
-
-(defn ?
-  "Query the dataset with a function i.e
-     (? db :users (fn [row] (= :email row) \"owain@owainlewis.com\""
-  [db ks fn]
-  (filter fn (keyspace db ks)))
-
-(defn where
-  "A helper function that makes it easy to query the dataset where
-   a key k is equal to a given value v"
-  [db ks k v]
-  (? db ks (fn [row]
-             (= (get row k) v))))
+(defn as-json [record]
+  (json/generate-string record))
 
 ;; Meta functions
 ;; -------------------------------------------------------------------
