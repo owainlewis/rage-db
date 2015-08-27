@@ -2,6 +2,8 @@
   (:refer-clojure :exclude [flush])
   (:require [clojure.java.io :as io]
             [clojure.string :refer [split]]
+            [rage-db.protocol :refer :all]
+            [rage-db.memory :refer :all]
             [cheshire.core :as json]))
 
 ;; -------------------------------------------------------------------
@@ -29,60 +31,6 @@
 
 ;; Default empty in memory db
 (def mem-db (create :mem))
-
-;; Generic protocol/abstraction to be implemented by various back end stores
-
-(defprotocol Rage
-
-  (insert [this ks row]
-    "insert an item in to a given keyspace")
-
-  (keyspace [this ks]
-    "Select all items in the keyspace")
-
-  (? [this ks f]
-    "Query the database using a simple function")
-
-  (where [this ks k v]
-    "Select an item in the database where k = v")
-
-  (drop-where [this ks k v]
-    "Drop every occurence in a keyspace where k = v"
-
-  (drop-db [this]
-     "Drop everything from the database")))
-
-(extend-protocol Rage
-
-  clojure.lang.Atom
-
-  (insert [this ks row]
-    (swap! this assoc-in [:store ks]
-      (conj
-        (get-in @this [:store ks] []) row)))
-
-  (keyspace [this ks]
-    (let [result (get-in @this [:store ks])]
-      (if (nil? result) {} result)))
-
-  (? [this ks f]
-    (into []
-      (filter f (keyspace this ks))))
-
-  (where [this ks k v]
-    (? this ks (fn [row]
-                 (= (get row k) v))))
-
-  (drop-where
-    [this ks k v]
-      (swap! this assoc-in [:store ks]
-        (filter
-          (complement
-            #(= (get % k) v))
-              (get-in @this [:store ks] []))))
-
-  (drop-db [this]
-    (swap! this assoc-in [:store] {})))
 
 ;; -------------------------------------------------------------------
 
