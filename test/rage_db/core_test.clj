@@ -1,5 +1,7 @@
 (ns rage-db.core-test
   (:require [midje.sweet :refer :all]
+            [rage-db.protocol :refer :all]
+            [rage-db.memory :refer :all]
             [rage-db.core :refer :all]))
 
 (facts "creating a database"
