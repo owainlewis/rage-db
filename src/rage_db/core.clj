@@ -6,16 +6,6 @@
             [rage-db.memory :refer :all]
             [cheshire.core :as json]))
 
-;; -------------------------------------------------------------------
-;;
-;; RAGE DB. A simple in memory file backed database for prototyping
-;;
-;; Rage is a very simple but useful in memory data store for prototyping and for cases
-;; where your datasets are small enough to work with in memory.
-;; Data is manipulated in memory as basic clojure maps but stored to disk as plain JSON
-
-;; -------------------------------------------------------------------
-
 (def ^:dynamic *directory* "data")
 
 (defrecord RDB [db-name store])
@@ -32,13 +22,8 @@
 ;; Default empty in memory db
 (def mem-db (create :mem))
 
-;; -------------------------------------------------------------------
-
 (defn as-json [record]
   (json/generate-string record))
-
-;; Meta functions
-;; -------------------------------------------------------------------
 
 (defn size
   "Returns the number of records in a key space"
@@ -47,15 +32,10 @@
     (count data-for-key)
      0))
 
-;; Storage
-;; -------------------------------------------------------------------
-
 (defn- build-file-path
   "Helper function that builds the path to store data on disk"
   [path]
   (format "%s" path))
-
-;; TODO the data directory idea is stupid. Allow users to pass in a path to the data folder
 
 (defn dump
   "Save the database to disk. Files are saved in the form
@@ -80,9 +60,6 @@
         (RDB.
            name
            (json/parse-string (slurp db-name)))))))
-
-;; Database compression for persistance
-;; -------------------------------------------------------------------
 
 (defn read-gzip [file-path]
   (with-open [in (java.util.zip.GZIPInputStream.
