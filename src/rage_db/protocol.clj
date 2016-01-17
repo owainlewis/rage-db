@@ -27,4 +27,3 @@
 
   (drop-db [this]
      "Drop everything from the database"))
-
