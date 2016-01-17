@@ -19,7 +19,6 @@
   [db]
   (atom (RDB. (name db) {})))
 
-;; Default empty in memory db
 (def mem-db (create :mem))
 
 (defn as-json [record]
